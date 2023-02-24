@@ -1,4 +1,17 @@
 .Board {
-    
+    flex: 1
+}
+
+.Row {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+}
+
+.Cell {
+    background-color: #fff;
+    border: 1px solid black;
+    width: 20px;
+    height: 20px;
 }
 
