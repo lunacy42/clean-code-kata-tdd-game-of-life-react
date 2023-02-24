@@ -12,3 +12,11 @@ it('renders 1200 cells', () => {
   const cells = screen.getAllByTestId('cell');
   expect(cells).toHaveLength(1200);
 });
+
+it('renders at least one living and at least one dead cell', () => {
+  render(<Board />);
+  const livingCells = screen.getAllByTestId('livingCell');
+  const deadCells = screen.getAllByTestId('deadCell');
+  expect(livingCells[0]).toBeInTheDocument();
+  expect(deadCells[0]).toBeInTheDocument();
+});
