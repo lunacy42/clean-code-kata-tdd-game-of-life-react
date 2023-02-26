@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import Board from './Board';
+import Board, { getNextCells } from './Board';
 
 it('renders at least one cell', () => {
   render(<Board />);
@@ -17,7 +17,6 @@ it('renders at least one living and at least one dead cell', () => {
   render(<Board />);
   const livingCells = screen.getAllByTestId('living-cell');
   const deadCells = screen.getAllByTestId('dead-cell');
-  // console.log('livingCells[40].key', window.getComputedStyle(livingCells[40]).backgroundColor);
   expect(livingCells[0]).toBeInTheDocument();
   expect(deadCells[0]).toBeInTheDocument();
 });
@@ -30,18 +29,48 @@ it('renders at least one living and at least one dead cell', () => {
 
 it('updates cells according to rule one', () => {
   render(<Board />);
-  const cells = [
+  const cells1 = [
     [0, 0, 0],
     [0, 1, 0],
     [0, 0, 0]
   ];
-  const nextCells = [
+  const nextCells1 = [
     [0, 0, 0],
     [0, 0, 0],
     [0, 0, 0]
   ];
-  const getNextCells = (cells: (number | boolean)[][]) => {
-    return cells;
-  };
-  expect(getNextCells(cells)).toEqual(nextCells);
+  const cells2 = [
+    [1, 0, 0],
+    [0, 0, 0],
+    [0, 0, 0]
+  ];
+  const nextCells2 = [
+    [0, 0, 0],
+    [0, 0, 0],
+    [0, 0, 0]
+  ];
+  const cells3 = [
+    [0, 1, 0],
+    [0, 0, 0],
+    [0, 0, 0]
+  ];
+  const nextCells3 = [
+    [0, 0, 0],
+    [0, 0, 0],
+    [0, 0, 0]
+  ];
+  const cells4 = [
+    [0, 0, 0],
+    [0, 0, 1],
+    [0, 0, 0]
+  ];
+  const nextCells4 = [
+    [0, 0, 0],
+    [0, 0, 0],
+    [0, 0, 0]
+  ];
+  expect(getNextCells(cells1)).toEqual(nextCells1);
+  expect(getNextCells(cells2)).toEqual(nextCells2);
+  expect(getNextCells(cells3)).toEqual(nextCells3);
+  expect(getNextCells(cells4)).toEqual(nextCells4);
 });
