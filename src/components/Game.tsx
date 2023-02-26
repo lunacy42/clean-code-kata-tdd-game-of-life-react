@@ -32,7 +32,7 @@ const Game = () => {
 
   return (
     <div>
-      <Board cells={cells} />
+      <Board cells={cells} setCells={setCells} />
       <Buttons setRunning={setRunning} getRandomCells={getRandomCells} setCells={setCells} />
     </div>
   );
