@@ -1,4 +1,5 @@
-import { render, screen } from '@testing-library/react';
+import { render, renderHook, screen } from '@testing-library/react';
+import useInterval from '../hooks/useInterval';
 import Board, { getNextCells } from './Board';
 
 it('renders at least one cell', () => {
@@ -217,4 +218,19 @@ it('updates cells according to rule four', () => {
   expect(getNextCells(cells2)).toEqual(nextCells2);
   expect(getNextCells(cells3)).toEqual(nextCells3);
   expect(getNextCells(cells4)).toEqual(nextCells4);
+});
+
+it('calls useInterval-hook every 500ms', () => {
+  const callback: any = jest.fn();
+
+  jest.useFakeTimers();
+
+  renderHook(() => useInterval(callback, 500));
+  render(<Board />);
+  jest.advanceTimersByTime(499);
+  expect(callback).toHaveBeenCalledTimes(0);
+  jest.advanceTimersByTime(1);
+  expect(callback).toHaveBeenCalledTimes(1);
+  jest.advanceTimersByTime(50000);
+  expect(callback).toHaveBeenCalledTimes(101);
 });
