@@ -334,3 +334,33 @@ it('resets board after clicking reset button', () => {
   expect(livingCellsAfterReset[0]).toBeInTheDocument();
   expect(deadCellsAfterReset[0]).toBeInTheDocument();
 });
+
+it('changes cell after clicking on it', () => {
+  render(<Game />);
+
+  // living-cells
+  const livingCells = screen.queryAllByTestId('living-cell');
+
+  expect(livingCells[0]).toHaveStyle({ backgroundColor: '#2da4ab' });
+
+  fireEvent.click(livingCells[0]);
+
+  expect(livingCells[0]).toHaveStyle({ backgroundColor: '#fff' });
+
+  fireEvent.click(livingCells[0]);
+
+  expect(livingCells[0]).toHaveStyle({ backgroundColor: '#2da4ab' });
+
+  // dead-cells
+  const deadCells = screen.queryAllByTestId('dead-cell');
+
+  expect(deadCells[0]).toHaveStyle({ backgroundColor: '#fff' });
+
+  fireEvent.click(deadCells[0]);
+
+  expect(deadCells[0]).toHaveStyle({ backgroundColor: '#2da4ab' });
+
+  fireEvent.click(deadCells[0]);
+
+  expect(deadCells[0]).toHaveStyle({ backgroundColor: '#fff' });
+});
