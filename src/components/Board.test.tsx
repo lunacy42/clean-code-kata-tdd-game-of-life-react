@@ -51,7 +51,7 @@ it('updates cells according to rule one', () => {
   ];
   const cells3 = [
     [0, 1, 0],
-    [0, 0, 0],
+    [0, 1, 0],
     [0, 0, 0]
   ];
   const nextCells3 = [
@@ -60,7 +60,7 @@ it('updates cells according to rule one', () => {
     [0, 0, 0]
   ];
   const cells4 = [
-    [0, 0, 0],
+    [0, 0, 1],
     [0, 0, 1],
     [0, 0, 0]
   ];
