@@ -74,3 +74,147 @@ it('updates cells according to rule one', () => {
   expect(getNextCells(cells3)).toEqual(nextCells3);
   expect(getNextCells(cells4)).toEqual(nextCells4);
 });
+
+it('updates cells according to rule two', () => {
+  render(<Board />);
+  const cells1 = [
+    [0, 1, 0],
+    [1, 1, 0],
+    [0, 0, 0]
+  ];
+  const nextCells1 = [
+    [0, 1, 0],
+    [1, 1, 0],
+    [0, 0, 0]
+  ];
+  const cells2 = [
+    [1, 1, 0],
+    [1, 1, 0],
+    [0, 0, 0]
+  ];
+  const nextCells2 = [
+    [1, 1, 0],
+    [1, 1, 0],
+    [0, 0, 0]
+  ];
+  const cells3 = [
+    [0, 1, 0],
+    [0, 1, 0],
+    [1, 1, 0]
+  ];
+  const nextCells3 = [
+    [0, 0, 0],
+    [0, 1, 0],
+    [0, 1, 0]
+  ];
+  const cells4 = [
+    [0, 0, 1],
+    [0, 0, 1],
+    [0, 1, 0]
+  ];
+  const nextCells4 = [
+    [0, 0, 0],
+    [0, 0, 1],
+    [0, 0, 0]
+  ];
+  expect(getNextCells(cells1)).toEqual(nextCells1);
+  expect(getNextCells(cells2)).toEqual(nextCells2);
+  expect(getNextCells(cells3)).toEqual(nextCells3);
+  expect(getNextCells(cells4)).toEqual(nextCells4);
+});
+
+it('updates cells according to rule three', () => {
+  render(<Board />);
+  const cells1 = [
+    [1, 1, 1],
+    [0, 1, 1],
+    [0, 0, 0]
+  ];
+  const nextCells1 = [
+    [1, 0, 1],
+    [0, 0, 1],
+    [0, 0, 0]
+  ];
+  const cells2 = [
+    [1, 1, 1],
+    [1, 1, 1],
+    [0, 0, 0]
+  ];
+  const nextCells2 = [
+    [1, 0, 1],
+    [1, 0, 1],
+    [0, 0, 0]
+  ];
+  const cells3 = [
+    [0, 1, 0],
+    [1, 1, 0],
+    [1, 1, 0]
+  ];
+  const nextCells3 = [
+    [0, 1, 0],
+    [0, 0, 0],
+    [1, 1, 0]
+  ];
+  const cells4 = [
+    [1, 1, 1],
+    [1, 1, 1],
+    [1, 1, 1]
+  ];
+  const nextCells4 = [
+    [1, 0, 1],
+    [0, 0, 0],
+    [1, 0, 1]
+  ];
+  expect(getNextCells(cells1)).toEqual(nextCells1);
+  expect(getNextCells(cells2)).toEqual(nextCells2);
+  expect(getNextCells(cells3)).toEqual(nextCells3);
+  expect(getNextCells(cells4)).toEqual(nextCells4);
+});
+
+it('updates cells according to rule four', () => {
+  render(<Board />);
+  const cells1 = [
+    [0, 0, 0],
+    [1, 1, 1],
+    [0, 0, 0]
+  ];
+  const nextCells1 = [
+    [0, 1, 0],
+    [0, 1, 0],
+    [0, 1, 0]
+  ];
+  const cells2 = [
+    [1, 1, 0],
+    [0, 1, 0],
+    [0, 0, 0]
+  ];
+  const nextCells2 = [
+    [1, 1, 0],
+    [1, 1, 0],
+    [0, 0, 0]
+  ];
+  const cells3 = [
+    [0, 1, 0],
+    [0, 1, 0],
+    [1, 0, 0]
+  ];
+  const nextCells3 = [
+    [0, 0, 0],
+    [1, 1, 0],
+    [0, 0, 0]
+  ];
+  const cells4 = [
+    [0, 0, 1],
+    [0, 0, 1],
+    [0, 0, 1]
+  ];
+  const nextCells4 = [
+    [0, 0, 0],
+    [0, 1, 1],
+    [0, 0, 0]
+  ];
+  expect(getNextCells(cells1)).toEqual(nextCells1);
+  expect(getNextCells(cells2)).toEqual(nextCells2);
+  expect(getNextCells(cells3)).toEqual(nextCells3);
+  expect(getNextCells(cells4)).toEqual(nextCells4);
+});
