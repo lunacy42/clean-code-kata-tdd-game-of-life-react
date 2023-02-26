@@ -1,8 +1,13 @@
 import { useState } from 'react';
 import './Board.css';
 
-const Buttons = () => {
-  const [running, setRunning] = useState(false);
+interface ButtonProps {
+  setRunning: (value: boolean) => void;
+  getRandomCells: (value: string) => number[][];
+  setCells: (value: number[][]) => void;
+}
+
+const Buttons = ({ setRunning, setCells, getRandomCells }: ButtonProps) => {
   const start = () => {
     setRunning(true);
   };
@@ -12,11 +17,11 @@ const Buttons = () => {
   };
 
   const empty = () => {
-    setRunning(true);
+    setCells(getRandomCells('empty'));
   };
 
   const reset = () => {
-    setRunning(true);
+    setCells(getRandomCells('filled'));
   };
 
   return (

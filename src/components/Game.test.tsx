@@ -1,7 +1,17 @@
-import { fireEvent, render, renderHook, screen } from '@testing-library/react';
+import { fireEvent, render, renderHook, screen, waitFor } from '@testing-library/react';
 import useInterval from '../hooks/useInterval';
 import { getNextCells } from '../utils/getNextCells';
 import Game from './Game';
+
+beforeEach(() => {
+  jest.useFakeTimers();
+});
+
+afterEach(() => {
+  jest.clearAllTimers();
+  jest.runOnlyPendingTimers();
+  jest.useRealTimers();
+});
 
 it('renders at least one cell', () => {
   render(<Game />);
@@ -224,8 +234,6 @@ it('updates cells according to rule four', () => {
 it('calls useInterval-hook every 500ms', () => {
   const callback: any = jest.fn();
 
-  jest.useFakeTimers();
-
   renderHook(() => useInterval(callback, 500));
   render(<Game />);
   const startButton = screen.getByText('Start');
@@ -238,57 +246,61 @@ it('calls useInterval-hook every 500ms', () => {
   expect(callback).toHaveBeenCalledTimes(101);
 });
 
-it('starts game after clicking start button', () => {
-  const callback: any = jest.fn();
-
-  jest.useFakeTimers();
-
-  renderHook(() => useInterval(callback, 500));
+it('starts game after clicking start button', async () => {
   render(<Game />);
-  // no callbacks if game not started
+  const livingCells = screen.queryAllByTestId('living-cell');
+  const deadCells = screen.getAllByTestId('dead-cell');
+
   jest.advanceTimersByTime(5000);
-  expect(callback).toHaveBeenCalledTimes(0);
+
+  // check cells
+  const nextLivingCells = screen.getAllByTestId('living-cell');
+  const nextDeadCells = screen.getAllByTestId('dead-cell');
+  expect(livingCells).toEqual(nextLivingCells);
+  expect(deadCells).toEqual(nextDeadCells);
 
   // start game
   const startButton = screen.getByText('Start');
   fireEvent.click(startButton);
 
-  jest.advanceTimersByTime(499);
-  expect(callback).toHaveBeenCalledTimes(0);
-  jest.advanceTimersByTime(1);
-  expect(callback).toHaveBeenCalledTimes(1);
-  jest.advanceTimersByTime(50000);
-  expect(callback).toHaveBeenCalledTimes(101);
+  await waitFor(() => expect(livingCells).not.toEqual(screen.getAllByTestId('living-cell')));
+  await waitFor(() => expect(deadCells).not.toEqual(screen.getAllByTestId('dead-cell')));
 });
 
-it('stops game after clicking stop button', () => {
-  const callback: any = jest.fn();
-
-  jest.useFakeTimers();
-
-  renderHook(() => useInterval(callback, 500));
+it('stops game after clicking stop button', async () => {
   render(<Game />);
-  // no callbacks if game not started
+  const livingCells = screen.queryAllByTestId('living-cell');
+  const deadCells = screen.getAllByTestId('dead-cell');
+
   jest.advanceTimersByTime(5000);
-  expect(callback).toHaveBeenCalledTimes(0);
+
+  // check cells
+  const nextLivingCells = screen.getAllByTestId('living-cell');
+  const nextDeadCells = screen.getAllByTestId('dead-cell');
+  expect(livingCells).toEqual(nextLivingCells);
+  expect(deadCells).toEqual(nextDeadCells);
 
   // start game
   const startButton = screen.getByText('Start');
   fireEvent.click(startButton);
 
-  jest.advanceTimersByTime(499);
-  expect(callback).toHaveBeenCalledTimes(0);
-  jest.advanceTimersByTime(1);
-  expect(callback).toHaveBeenCalledTimes(1);
-  jest.advanceTimersByTime(50000);
-  expect(callback).toHaveBeenCalledTimes(101);
+  await waitFor(() => expect(livingCells).not.toEqual(screen.getAllByTestId('living-cell')));
+  await waitFor(() => expect(deadCells).not.toEqual(screen.getAllByTestId('dead-cell')));
 
   // stop game
   const stopButton = screen.getByText('Stop');
   fireEvent.click(stopButton);
 
+  const livingCellsBeforeTimeout = screen.queryAllByTestId('living-cell');
+  const deadCellsBeforeTimeout = screen.getAllByTestId('dead-cell');
+
   jest.advanceTimersByTime(5000);
-  expect(callback).toHaveBeenCalledTimes(101);
+
+  // check cells
+  const livingCellsAfterTimeout = screen.queryAllByTestId('living-cell');
+  const deadCellsAfterTimeout = screen.getAllByTestId('dead-cell');
+  expect(livingCellsBeforeTimeout).toEqual(livingCellsAfterTimeout);
+  expect(deadCellsBeforeTimeout).toEqual(deadCellsAfterTimeout);
 });
 
 it('empties board after clicking empty button', () => {
@@ -297,9 +309,9 @@ it('empties board after clicking empty button', () => {
   const emptyButton = screen.getByText('Empty');
   fireEvent.click(emptyButton);
 
-  const livingCells = screen.getAllByTestId('living-cell');
+  const livingCells = screen.queryAllByTestId('living-cell');
   const deadCells = screen.getAllByTestId('dead-cell');
-  expect(livingCells[0]).not.toBeInTheDocument();
+  expect(livingCells[0]).toBeUndefined();
   expect(deadCells[0]).toBeInTheDocument();
 });
 
@@ -309,9 +321,9 @@ it('resets board after clicking reset button', () => {
   const emptyButton = screen.getByText('Empty');
   fireEvent.click(emptyButton);
 
-  const livingCells = screen.getAllByTestId('living-cell');
+  const livingCells = screen.queryAllByTestId('living-cell');
   const deadCells = screen.getAllByTestId('dead-cell');
-  expect(livingCells[0]).not.toBeInTheDocument();
+  expect(livingCells[0]).toBeUndefined();
   expect(deadCells[0]).toBeInTheDocument();
 
   const resetButton = screen.getByText('Reset');

@@ -21,18 +21,19 @@ const Game = () => {
   };
 
   const [cells, setCells] = useState<number[][]>(getRandomCells('filled'));
+  const [running, setRunning] = useState<boolean>(false);
 
   const updateCells = () => {
     const newCells = getNextCells(cells);
     setCells(newCells);
   };
 
-  useInterval(() => updateCells(), 500);
+  useInterval(() => running && updateCells(), 500);
 
   return (
     <div>
       <Board cells={cells} />
-      <Buttons />
+      <Buttons setRunning={setRunning} getRandomCells={getRandomCells} setCells={setCells} />
     </div>
   );
 };
