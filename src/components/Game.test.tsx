@@ -1,21 +1,22 @@
 import { render, renderHook, screen } from '@testing-library/react';
 import useInterval from '../hooks/useInterval';
-import Board, { getNextCells } from './Board';
+import { getNextCells } from '../utils/getNextCells';
+import Game from './Game';
 
 it('renders at least one cell', () => {
-  render(<Board />);
+  render(<Game />);
   const cells = screen.getAllByTestId('cell', { exact: false });
   expect(cells[0]).toBeInTheDocument();
 });
 
 it('renders 1200 cells', () => {
-  render(<Board />);
+  render(<Game />);
   const cells = screen.getAllByTestId('cell', { exact: false });
   expect(cells).toHaveLength(1200);
 });
 
 it('renders at least one living and at least one dead cell', () => {
-  render(<Board />);
+  render(<Game />);
   const livingCells = screen.getAllByTestId('living-cell');
   const deadCells = screen.getAllByTestId('dead-cell');
   expect(livingCells[0]).toBeInTheDocument();
@@ -29,7 +30,7 @@ it('renders at least one living and at least one dead cell', () => {
 // 4. Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
 
 it('updates cells according to rule one', () => {
-  render(<Board />);
+  render(<Game />);
   const cells1 = [
     [0, 0, 0],
     [0, 1, 0],
@@ -77,7 +78,7 @@ it('updates cells according to rule one', () => {
 });
 
 it('updates cells according to rule two', () => {
-  render(<Board />);
+  render(<Game />);
   const cells1 = [
     [0, 1, 0],
     [1, 1, 0],
@@ -125,7 +126,7 @@ it('updates cells according to rule two', () => {
 });
 
 it('updates cells according to rule three', () => {
-  render(<Board />);
+  render(<Game />);
   const cells1 = [
     [1, 1, 1],
     [0, 1, 1],
@@ -173,7 +174,7 @@ it('updates cells according to rule three', () => {
 });
 
 it('updates cells according to rule four', () => {
-  render(<Board />);
+  render(<Game />);
   const cells1 = [
     [0, 0, 0],
     [1, 1, 1],
@@ -226,7 +227,7 @@ it('calls useInterval-hook every 500ms', () => {
   jest.useFakeTimers();
 
   renderHook(() => useInterval(callback, 500));
-  render(<Board />);
+  render(<Game />);
   jest.advanceTimersByTime(499);
   expect(callback).toHaveBeenCalledTimes(0);
   jest.advanceTimersByTime(1);

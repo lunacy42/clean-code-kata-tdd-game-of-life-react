@@ -1,67 +1,10 @@
-import { useState } from 'react';
-import useInterval from '../hooks/useInterval';
 import './Board.css';
 
-export const getNextCells = (cells: number[][]) => {
-  const neighborPositions = [
-    [-1, -1],
-    [0, -1],
-    [1, -1],
-    [-1, 0],
-    [1, 0],
-    [-1, 1],
-    [0, 1],
-    [1, 1]
-  ];
-  return cells.map((row, i) => {
-    return row.map((column, j) => {
-      let neighbors = 0;
-      neighborPositions.forEach((pos) => {
-        if (
-          i + pos[0] >= 0 &&
-          i + pos[0] < cells.length &&
-          j + pos[1] >= 0 &&
-          j + pos[1] < row.length
-        ) {
-          neighbors += cells[i + pos[0]][j + pos[1]];
-        }
-      });
-      if (neighbors === 3) {
-        return 1;
-      } // Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
-      if (neighbors > 1 && neighbors < 4 && cells[i][j] === 1) {
-        return 1;
-      } // Any live cell with two or three live neighbours lives on to the next generation.
+interface BoardProps {
+  cells: number[][];
+}
 
-      return 0; // Any live cell with fewer than two live neighbours dies, as if by underpopulation. && Any live cell with more than three live neighbours dies, as if by overpopulation.
-    });
-  });
-};
-
-const Board = () => {
-  const numRows = 20;
-  const numCols = 60;
-  const getRandomCells = (filling: string) => {
-    const rows = [];
-    for (let y = 1; y <= numRows; y++) {
-      const column = [];
-      for (let x = 1; x <= numCols; x++) {
-        column.push(filling === 'filled' ? Number(Math.random() < 0.3) : 0);
-      }
-      rows.push(column);
-    }
-    return rows;
-  };
-
-  const [cells, setCells] = useState<number[][]>(getRandomCells('filled'));
-
-  const updateCells = () => {
-    const newCells = getNextCells(cells);
-    setCells(newCells);
-  };
-
-  useInterval(() => updateCells(), 500);
-
+const Board = ({ cells }: BoardProps) => {
   const getRows = (row: number[], i: number) => {
     return row.map((cell: number, j: number) => {
       return (
