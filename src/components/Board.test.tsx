@@ -83,7 +83,7 @@ it('updates cells according to rule two', () => {
     [0, 0, 0]
   ];
   const nextCells1 = [
-    [0, 1, 0],
+    [1, 1, 0],
     [1, 1, 0],
     [0, 0, 0]
   ];
@@ -104,8 +104,8 @@ it('updates cells according to rule two', () => {
   ];
   const nextCells3 = [
     [0, 0, 0],
-    [0, 1, 0],
-    [0, 1, 0]
+    [0, 1, 1],
+    [1, 1, 0]
   ];
   const cells4 = [
     [0, 0, 1],
@@ -114,7 +114,7 @@ it('updates cells according to rule two', () => {
   ];
   const nextCells4 = [
     [0, 0, 0],
-    [0, 0, 1],
+    [0, 1, 1],
     [0, 0, 0]
   ];
   expect(getNextCells(cells1)).toEqual(nextCells1);
@@ -132,7 +132,7 @@ it('updates cells according to rule three', () => {
   ];
   const nextCells1 = [
     [1, 0, 1],
-    [0, 0, 1],
+    [1, 0, 1],
     [0, 0, 0]
   ];
   const cells2 = [
@@ -143,7 +143,7 @@ it('updates cells according to rule three', () => {
   const nextCells2 = [
     [1, 0, 1],
     [1, 0, 1],
-    [0, 0, 0]
+    [0, 1, 0]
   ];
   const cells3 = [
     [0, 1, 0],
@@ -151,8 +151,8 @@ it('updates cells according to rule three', () => {
     [1, 1, 0]
   ];
   const nextCells3 = [
-    [0, 1, 0],
-    [0, 0, 0],
+    [1, 1, 0],
+    [0, 0, 1],
     [1, 1, 0]
   ];
   const cells4 = [
