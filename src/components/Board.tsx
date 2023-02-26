@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import useInterval from '../hooks/useInterval';
 import './Board.css';
 
 export const getNextCells = (cells: number[][]) => {
@@ -58,6 +59,8 @@ const Board = () => {
     const newCells = getNextCells(cells);
     setCells(newCells);
   };
+
+  useInterval(() => updateCells(), 500);
 
   const getRows = (row: number[], i: number) => {
     return row.map((cell: number, j: number) => {
